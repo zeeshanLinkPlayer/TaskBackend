@@ -32,13 +32,13 @@ app.use('/api/tasks', require('./routes/taskRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
 // Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('dist/public'));
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static('dist/public'));
   
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../dist/public', 'index.html'));
-  });
-}
+//   app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, '../dist/public', 'index.html'));
+//   });
+// }
 
 // Error handler
 app.use((err, req, res, next) => {
