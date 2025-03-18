@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
+    console.log(users,"users")
     res.status(200).json(users);
   } catch (error) {
     console.error('Get all users error:', error);
@@ -15,9 +16,11 @@ exports.getAllUsers = async (req, res) => {
 // Get users managed by current user (Admin and Manager)
 exports.getManagedUsers = async (req, res) => {
   try {
-    const managerId = req.user.id;
-    const managedUsers = await User.find({ managerId });
-    
+    const managerId = req.user._id;
+    const managedUsers = await User.find({
+      $or: [{ managerId, role: "user" }, { _id: managerId, role: "manager" }],
+    });
+    console.log(managedUsers,"managedUsers")
     res.status(200).json(managedUsers);
   } catch (error) {
     console.error('Get managed users error:', error);
@@ -29,35 +32,35 @@ exports.getManagedUsers = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     const { username, email, password, name, role, managerId, active } = req.body;
-    
+
     // Check if username or email already exists
     const existingUser = await User.findOne({ 
       $or: [{ username }, { email }] 
     });
-    
+
     if (existingUser) {
       if (existingUser.username === username) {
         return res.status(400).json({ message: 'Username already exists' });
       }
-      
+
       if (existingUser.email === email) {
         return res.status(400).json({ message: 'Email already exists' });
       }
     }
-    
-    // Create new user
+
+    // Create new user (password will be hashed automatically by the pre-save hook)
     const newUser = new User({
       username,
       email,
-      password,
+      password, // Password will be hashed automatically
       name,
       role: role || 'user',
       managerId,
       active: active !== undefined ? active : true
     });
-    
+
     await newUser.save();
-    
+
     res.status(201).json(newUser);
   } catch (error) {
     console.error('Create user error:', error);
@@ -69,7 +72,7 @@ exports.createUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    
+    console.log(userId,"userId")
     // Check if user exists
     const user = await User.findById(userId);
     
@@ -103,7 +106,7 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    
+    console.log(userId,"userId")
     // Check if user exists
     const user = await User.findById(userId);
     

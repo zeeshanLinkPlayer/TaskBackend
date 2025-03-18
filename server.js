@@ -3,7 +3,8 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
-
+const dotenv=require("dotenv")
+dotenv.config()
 // Create Express app
 const app = express();
 
@@ -13,7 +14,12 @@ connectDB();
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow only frontend origin
+  credentials: true, // Allow cookies & authorization headers
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+}));
 
 // Request logger
 if (process.env.NODE_ENV !== 'production') {

@@ -5,10 +5,10 @@ const authenticateToken = require('../middleware/auth');
 const roleCheck = require('../middleware/roleCheck');
 
 // All task routes require authentication
-router.use(authenticateToken);
+// router.use(authenticateToken);
 
 // Get all tasks - GET /api/tasks
-router.get('/', taskController.getTasks);
+router.get('/',authenticateToken, taskController.getTasks);
 
 // Get task by ID - GET /api/tasks/:id
 router.get('/:id', taskController.getTaskById);
