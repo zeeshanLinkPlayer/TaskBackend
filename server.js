@@ -27,9 +27,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // API Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/tasks', require('./routes/taskRoutes'));
-app.use('/api/users', require('./routes/userRoutes'));
+app.use('api/auth', require('./routes/authRoutes'));
+app.use('api/tasks', require('./routes/taskRoutes'));
+app.use('api/users', require('./routes/userRoutes'));
 
 // Serve static assets in production
 // if (process.env.NODE_ENV === 'production') {
