@@ -15,7 +15,7 @@ connectDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({
-  origin: 'http://localhost:5173', // Allow only frontend origin
+  origin: ['http://localhost:5173', 'https://task-frontend-yvp6.vercel.app'], // Allow multiple origins
   credentials: true, // Allow cookies & authorization headers
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allowed methods
   allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
