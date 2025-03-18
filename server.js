@@ -39,7 +39,9 @@ app.use('/api/users', require('./routes/userRoutes'));
 //     res.sendFile(path.resolve(__dirname, '../dist/public', 'index.html'));
 //   });
 // }
-
+app.get("/",(req,res)=>{
+  res.send("Hello world")
+})
 // Error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);
