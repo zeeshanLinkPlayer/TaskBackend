@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.options('*', cors());
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://task-frontend-yvp6.vercel.app'], // Allow only frontend origins
+  origin: "*", // Allow only frontend origins
   credentials: true, // Important for authentication
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -29,9 +29,9 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // API Routes
-app.use('api/auth', require('./routes/authRoutes'));
-app.use('api/tasks', require('./routes/taskRoutes'));
-app.use('api/users', require('./routes/userRoutes'));
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/tasks', require('./routes/taskRoutes'));
+app.use('/api/users', require('./routes/userRoutes'));
 
 // Serve static assets in production
 // if (process.env.NODE_ENV === 'production') {
